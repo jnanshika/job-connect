@@ -1,0 +1,1 @@
+#Central place for app configuration (database URI, OAuth secrets).
