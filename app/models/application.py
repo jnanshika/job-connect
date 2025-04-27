@@ -9,10 +9,10 @@ class ApplicationStatus(Enum):
     INPROGRESS = "inprogress"
 
 class ApplicationModel:
-    __table__ = "ApplicationModel"
+    __tablename__ = "applications"
 
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('UserModel.id'), nullable=False)
-    job_id = db.Column(db.Integer, db.ForeignKey('JobModel.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
     status = db.Column(db.Enum(ApplicationStatus), default=ApplicationStatus.PENDING)
     applied_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))

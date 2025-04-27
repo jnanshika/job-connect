@@ -11,7 +11,7 @@ class UserSchema(Schema):
     password = fields.Str(required=True, validate=Length(min=6))
     name = fields.Str(required=True, validate=Length(min=1))
     created_at = fields.DateTime(dump_only=True)
-    role = fields.Str(default='job_seeker', validate=lambda x: x in VALID_ROLES)
+    role = fields.Str(load_default='job_seeker', validate=lambda x: x in VALID_ROLES)
 
     @validates('email')
     def validate_email(self, value):
