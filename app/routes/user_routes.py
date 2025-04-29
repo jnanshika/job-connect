@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.services.auth_service import AuthService
+from app.services import AuthService
 from app.models import UserModel
 from app.schemas import VALID_ROLES, ValidationError, UserSchema
 
