@@ -33,7 +33,7 @@ def get_alljobs():
 
     return { "jobs:" :job_schema.dump(jobs) }, 200
 
-@job_routes.route('/update/<int:id>', methods=['POST'])
+@job_routes.route('/update/<int:id>', methods=['PUT'])
 def update(id):
 
     #TODO : recruiter can update jobs posted by them and only recruiter can update jobs - using user id from session

@@ -5,7 +5,7 @@ from app.extensions import db
 
 application_routes = Blueprint('application_routes', __name__)
 
-@application_routes.route('/applications', methods=['POST'])
+@application_routes.route('/apply', methods=['POST'])
 def apply_job():
     data = request.get_json()
     application_schema = ApplicationSchema()

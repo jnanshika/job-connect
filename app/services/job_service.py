@@ -24,7 +24,7 @@ class JobService():
         db.session.add(new_job)
         db.session.commit()
 
-        return {"message": "Job was sccessfully added!"}, 200
+        return {"message": "Job was sccessfully added!"}, 201
     
 
 
@@ -44,4 +44,4 @@ class JobService():
         db.session.add(curr_record)
         db.session.commit()
 
-        return {"message": "Job was sccessfully updated!"}, 200
+        return {"message": "Job was sccessfully updated!"}, 201
