@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.services import AuthService
 from app.models import UserModel
 from app.schemas import VALID_ROLES, ValidationError, UserSchema
+#from app.extensions import jwt
 
 #Blueprint = a way to group related routes together cleanly.
 user_routes = Blueprint('user_routes', __name__)
@@ -41,3 +42,8 @@ def get_all_users():
     schema = UserSchema(many=True) #many helps to check for more than one record
 
     return {"users": schema.dump(users)}, 200
+
+
+@user_routes.route('/login/id', methods=['GET'])
+def secure_login():
+    return AuthService.authorise_token()
