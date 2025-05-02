@@ -33,17 +33,10 @@ class AuthService:
         return {"access_token": access_token}, 200
 
     @staticmethod
-    def verify_token(token):
-        try:
-            decoded_token = decode_token(token)
-            return decoded_token
-        except Exception as e:
-            return {"message": f"Invalid token! {str(e)}"}, 400
-        
     @jwt_required()
-    def authorise_token():
+    def verify_token():
         current_userid = get_jwt_identity()
         if current_userid:
-            return {"message": f"Authorised user: {current_userid}"}, 202
+            return {"message": f"Authorised user: {current_userid}"}, 200
         
         return {"message": "UnAuthorised"}, 401

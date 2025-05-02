@@ -46,4 +46,4 @@ def get_all_users():
 
 @user_routes.route('/login/id', methods=['GET'])
 def secure_login():
-    return AuthService.authorise_token()
+    return AuthService.verify_token()

@@ -3,7 +3,7 @@ from marshmallow.validate import Length, Email
 
 import re
 
-VALID_ROLES = ['job_seeker', 'recruiter']
+VALID_ROLES = ['candidate', 'recruiter','admin']
 
 class UserSchema(Schema):
     id = fields.Int(dump_only=True)
