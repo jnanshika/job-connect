@@ -1,5 +1,5 @@
 from flask import Flask
-from app.extensions import db
+from app.extensions import db, jwt
 from app.routes import register_routes
 
 def create_app():
@@ -11,6 +11,7 @@ def create_app():
 
     # Register Routes (This will register all routes from your routes directory)
     register_routes(app)
+    jwt.init_app(app)
 
     # Create all tables in the database (Will create tables for all models)
     with app.app_context():

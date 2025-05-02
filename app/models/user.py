@@ -10,4 +10,4 @@ class UserModel(db.Model):
     name = db.Column(db.String(100), nullable=False)
     #We use a lambda so that it’s called fresh whenever a row is inserted (not evaluated once at server start).
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-    role = db.Column(db.String(50), nullable=False, default='job_seeker')
+    role = db.Column(db.String(50), nullable=False)

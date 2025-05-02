@@ -16,3 +16,4 @@ class ApplicationModel:
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
     status = db.Column(db.Enum(ApplicationStatus), default=ApplicationStatus.PENDING)
     applied_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+ 
