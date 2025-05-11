@@ -1,19 +1,20 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import validate
 from marshmallow.validate import Length
+from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
+from app.models import JobModel
 
-Valid_JobStatus = ['Active' , 'Inactive']
+Valid_JobStatus = ['Active' , 'Inactive', 'Draft']
 
-class JobSchema(Schema):
+#Setting load_instance=True tells Marshmallow to return a model instance instead of a plain dictionary.
+class JobSchema(SQLAlchemySchema):
+    class Meta:
+        model = JobModel
+        load_instance = True  #gives you a JobModel instance
 
-    # load_instance = True   # 🔥 makes load() return model instance
-    # include_fk = True      # 🔥 allows foreign key like posted_by
-
-
-    id = fields.Int(dump_only= True)
-    title = fields.Str(required= True, validate = Length(min=5))
-    description = fields.Str(required= True, validate = Length(min=5))
-    posted_by = fields.Int(required= True)
-    created_at = fields.DateTime(dump_only= True)
-    location = fields.Str(required= True, validate = Length(min=3))
-    status = fields.Str(required= True, validate= lambda x:x in Valid_JobStatus) 
-        
+    id = auto_field(dump_only=True)
+    title = auto_field(required=True, validate=Length(min=5))
+    description = auto_field(required=True, validate=Length(min=5))
+    location = auto_field(required=True, validate=Length(min=3))
+    status = auto_field(required=True, validate=validate.OneOf(Valid_JobStatus))  # we'll validate manually
+    posted_by = auto_field(dump_only=True)  # user shouldn't send this
+    created_at = auto_field(dump_only=True)

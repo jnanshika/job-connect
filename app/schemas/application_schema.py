@@ -4,12 +4,12 @@ from app.models import ApplicationStatus, ApplicationModel, UserModel, JobModel
 
 class ApplicationSchema(Schema):
     id = fields.Int(dump_only=True)
-    user_id = fields.Int(required=True)  # Foreign key to User model
-    job_id = fields.Int(required=True)   # Foreign key to Job model
+    user_id = fields.Int(dump_only=True)  # Foreign key to User model
+    job_id = fields.Int(dump_only=True)   # Foreign key to Job model
     status = fields.Str(required=True, validate=Length(min=1))
-    created_at = fields.DateTime(dump_only=True)
+    created_at = fields.DateTime(dump_only=True) 
 
-    @validates('status')
+    """@validates('status')
     def validate_status(self, value):
         allowed_status = [status.value for status in ApplicationStatus]  # Get the enum values dynamically
         if value not in allowed_status:
@@ -27,4 +27,4 @@ class ApplicationSchema(Schema):
     def validate_job_id(self, value):
         job = JobModel.query.filter_by(id=value).first()
         if not job:
-            raise ValidationError("Job does not exist.")
+            raise ValidationError("Job does not exist.")"""
