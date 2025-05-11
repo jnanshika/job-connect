@@ -43,7 +43,7 @@ def get_all_users():
 
     return {"users": schema.dump(users)}, 200
 
-
-@user_routes.route('/login/id', methods=['GET'])
+#don't know the point of this
+@user_routes.route('/login', methods=['GET'])
 def secure_login():
     return AuthService.verify_token()
