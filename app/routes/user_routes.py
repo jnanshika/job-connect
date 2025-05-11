@@ -35,15 +35,10 @@ def login():
 
     return AuthService.login_user(email, password)
 
-@user_routes.route('/allusers', methods=['GET'])
+@user_routes.route('/', methods=['GET'])
 def get_all_users():
     users = UserModel.query.all()  # Get all user records from database - Python object
     
     schema = UserSchema(many=True) #many helps to check for more than one record
 
     return {"users": schema.dump(users)}, 200
-
-#don't know the point of this
-@user_routes.route('/login', methods=['GET'])
-def secure_login():
-    return AuthService.verify_token()

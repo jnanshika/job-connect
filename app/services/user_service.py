@@ -1,8 +1,8 @@
 from app.models import UserModel
 from bcrypt import hashpw, checkpw, gensalt
-from app.extensions import db, jwt
+from app.extensions import db
 from datetime import timedelta
-from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token,decode_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 class AuthService:
     @staticmethod
