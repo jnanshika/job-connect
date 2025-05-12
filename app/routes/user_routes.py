@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.services import AuthService
 from app.models import UserModel
 from app.schemas import VALID_ROLES, ValidationError, UserSchema
-#from app.extensions import jwt
+from app.extensions import db
 
 #Blueprint = a way to group related routes together cleanly.
 user_routes = Blueprint('user_routes', __name__)
@@ -11,29 +11,34 @@ user_routes = Blueprint('user_routes', __name__)
 def register():
     jsondata = request.get_json()
 
-    #deserialise the data
     try:
-        user_schema = UserSchema()
-        user_object = user_schema.load(jsondata)
+        user_schema = UserSchema(session =db.session)
+        user = user_schema.load(jsondata)  #Deserialisation
     
     except ValidationError as error:
         return {"errors": error.messages}, 400
     
-    if user_object['role'] not in VALID_ROLES:
+    if user.role not in VALID_ROLES:
         return jsonify({"error": "Invalid role provided"}), 400
     
-    return AuthService.register_user(user_object['email'], user_object['password'] , user_object['name'] , user_object['role'] )
+    return AuthService.register_user(user)
 
 @user_routes.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
+    jsondata = request.get_json()
+    email = jsondata.get('email')
+    password = jsondata.get('password')
 
     if not email or not password:
-        return {"message": "Missing required fields!"}, 400
+        return {"error": "Email and password are required and cannot be empty."}, 400
 
-    return AuthService.login_user(email, password)
+    try:
+        user_schema = UserSchema(session =db.session)
+        user = user_schema.load(jsondata, partial =True)  #Deserialisation
+    except ValidationError as error:
+        return {"errors": error.messages}, 400
+    
+    return AuthService.login_user(user)
 
 @user_routes.route('/', methods=['GET'])
 def get_all_users():
@@ -42,3 +47,17 @@ def get_all_users():
     schema = UserSchema(many=True) #many helps to check for more than one record
 
     return {"users": schema.dump(users)}, 200
+
+@user_routes.route('/<int:user_id>/deactivate', methods = ['PATCH'])
+def deactivate_user(user_id):
+    #check if user is authorised
+    message, status = AuthService.verify_token()
+    if status != 200:
+        return message, status
+    
+    return AuthService.deactivate_user(user_id)
+
+#Only for testing - should be update to admin only or automate to delete deactivate accounts >30 days
+@user_routes.route('/<int:user_id>/delete', methods= ['DELETE'])
+def delete_user(user_id):
+    return AuthService.delete_user(user_id)

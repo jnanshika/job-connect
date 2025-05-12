@@ -1,14 +1,19 @@
 from marshmallow import Schema, fields, validates, ValidationError
 from marshmallow.validate import Length, Email
-
-import re
+from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
+from app.models import UserModel
 
 VALID_ROLES = ['candidate', 'recruiter','admin']
 
-class UserSchema(Schema):
-    id = fields.Int(dump_only=True)
-    email = fields.Str(required=True, validate= Email())
-    password = fields.Str(required=True, validate=Length(min=6))
-    name = fields.Str(required=True, validate=Length(min=3))
-    created_at = fields.DateTime(dump_only=True)
-    role = fields.Str(required=True, validate=lambda x: x in VALID_ROLES) 
+class UserSchema(SQLAlchemySchema):
+    class Meta:
+        model = UserModel
+        load_instance = True  #gives you a JobModel instance
+    
+    id = auto_field(dump_only=True)
+    name = auto_field(required=True)
+    email = auto_field(required=True)
+    password = auto_field(required=True)  
+    role = auto_field(required=True)
+    created_at = auto_field(dump_only=True)
+    status = auto_field(dump_only =True)
