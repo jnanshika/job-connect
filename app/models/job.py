@@ -12,3 +12,5 @@ class JobModel(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     location = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(20), nullable=False)
+
+    applications = db.relationship('ApplicationModel', back_populates='job', cascade='all, delete-orphan')

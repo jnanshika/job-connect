@@ -12,4 +12,6 @@ class UserModel(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     role = db.Column(db.String(20), nullable=False)
     # ✅ Add the new column
-    status = db.Column(db.String(10), nullable=True, default='active') 
+    status = db.Column(db.String(10), nullable=False, default='active') 
+
+    applications = db.relationship('ApplicationModel', back_populates='user', cascade='all, delete-orphan')
