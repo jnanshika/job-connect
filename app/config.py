@@ -1,7 +1,11 @@
 #Central place for app configuration (database URI, OAuth secrets).
+import os
+from dotenv import load_dotenv
+ 
+load_dotenv()  # load .env into environment variable
 
 class Config:
-    SECRET_KEY = 'eZgaF9ESATNIyshm78i9'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'  # or any db you want
+    JWT_SECRET_KEY = os.getenv("SECRET_KEY")
+    SQLALCHEMY_DATABASE_URI = os.getenv( "DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
+    DEBUG = os.getenv("FLASK_ENV") == "development"

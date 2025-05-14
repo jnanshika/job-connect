@@ -4,4 +4,4 @@ It registers all models once.
 
 from .user import UserModel
 from .job import JobModel
-from .application import ApplicationModel, ApplicationStatus
+from .application import ApplicationModel, Valid_ApplicationStatus

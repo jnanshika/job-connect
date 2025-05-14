@@ -10,4 +10,8 @@ class UserModel(db.Model):
     name = db.Column(db.String(100), nullable=False)
     #We use a lambda so that it’s called fresh whenever a row is inserted (not evaluated once at server start).
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-    role = db.Column(db.String(50), nullable=False)
+    role = db.Column(db.String(20), nullable=False)
+    # ✅ Add the new column
+    status = db.Column(db.String(10), nullable=False, default='active') 
+
+    applications = db.relationship('ApplicationModel', back_populates='user', cascade='all, delete-orphan')
