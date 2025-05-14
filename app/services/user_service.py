@@ -27,25 +27,16 @@ class AuthService:
     def login_user(user):
         db_user = UserModel.query.filter_by(email=user.email).first()
         if not db_user : 
-            return {"message": "User not found!"}, 404
+            return {"error": "User not found!"}, 404
         
         #checkpw(plain password(user enter), encrypted password (database hashed password))
         if not checkpw(user.password.encode('utf-8'), db_user.password.encode('utf-8')):
-            return {"message": "Incorrect password!"}, 401
+            return {"error": "Incorrect password!"}, 401
         
         # Create access token
         access_token = create_access_token(identity=str(db_user.id), expires_delta=timedelta(hours=1))
         return {"access_token": access_token}, 200
 
-    @staticmethod
-    @jwt_required()
-    def verify_token():
-        current_userid = get_jwt_identity()
-        if current_userid:
-            return {"message": f"Authorised user: {current_userid}"}, 200
-        
-        return {"message": f"UnAuthorised user: {current_userid}"}, 401
-    
     def deactivate_user(user_id : int):
         try:
             user = UserModel.query.filter_by(id = user_id).first()
@@ -53,8 +44,7 @@ class AuthService:
             # Check the user's role
             if user.role == 'candidate':
                 # Deactivate all applications associated with this candidate
-                user_applications = ApplicationModel.query.filter_by(user_id = user.id).all()
-                for application in user.user_applications:
+                for application in user.applications:
                     application.status = 'Inactive'
             
             elif user.role == 'recruiter':

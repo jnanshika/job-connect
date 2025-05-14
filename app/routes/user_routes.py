@@ -3,6 +3,7 @@ from app.services import AuthService
 from app.models import UserModel
 from app.schemas import VALID_ROLES, ValidationError, UserSchema
 from app.extensions import db
+from app.utils import admin_required, token_required
 
 #Blueprint = a way to group related routes together cleanly.
 user_routes = Blueprint('user_routes', __name__)
@@ -49,15 +50,14 @@ def get_all_users():
     return {"users": schema.dump(users)}, 200
 
 @user_routes.route('/<int:user_id>/deactivate', methods = ['PATCH'])
-def deactivate_user(user_id):
-    #check if user is authorised
-    message, status = AuthService.verify_token()
-    if status != 200:
-        return message, status
-    
+@token_required
+def deactivate_user(loggeduser, user_id):
+    if loggeduser.role!= 'admin' and loggeduser.id != user_id:
+        return {"error": f"{loggeduser.name} is not authorized to deactivate this user"}, 403
     return AuthService.deactivate_user(user_id)
 
 #Only for testing - should be update to admin only or automate to delete deactivate accounts >30 days
 @user_routes.route('/<int:user_id>/delete', methods= ['DELETE'])
-def delete_user(user_id):
+@admin_required
+def delete_user(user, user_id):
     return AuthService.delete_user(user_id)

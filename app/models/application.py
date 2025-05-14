@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from app.extensions import db
 from sqlalchemy.orm import relationship
 
-Valid_ApplicationStatus = ['Applied', 'Inprogress', 'Denied', 'Hired', 'Inactive']
+Valid_ApplicationStatus = ['Applied', 'Inprogress', 'Rejected', 'Hired', 'Inactive']
 
 class ApplicationModel(db.Model):
     __tablename__ = 'applications'
