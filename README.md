@@ -49,7 +49,7 @@ Stay tuned for a detailed guide covering all available endpoints, request/respon
 To run the API locally:
 
 ```bash
-git clone https://github.com/your-username/job-connect-api.git
+git clone https://github.com/jnanshika/job-connect.git
 cd job-connect-api
 pip install -r requirements.txt
 py run.py
