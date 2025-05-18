@@ -29,7 +29,7 @@ The **Job Connect API** serves as the backend engine for managing users, job pos
 
 ## 📚 API Documentation
 
-Interactive Swagger UI for the Job Connect API will be uploaded shortly.  
+Interactive Swagger UI for the Job Connect API link: https://job-connect-t186.onrender.com/apidocs/
 Stay tuned for a detailed guide covering all available endpoints, request/response formats, and example payloads.
 
 ---
