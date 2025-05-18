@@ -23,18 +23,18 @@ def token_required(f):
 def recruiter_required(f):
     @wraps(f)
     @token_required
-    def decorated_function(user_id, *args, **kwargs):
-        user = UserModel.query.get(user_id)
+    #the token_required function returns a user
+    def decorated_function(user, *args, **kwargs):
         if not user or user.role != "recruiter":
-            return jsonify({"error": "User must be a recruiter"}), 403
+            return {"error": f"User must be a recruiter {user}"}, 403
         return f(user, *args, **kwargs)
     return decorated_function
 
 def candidate_required(f):
     @wraps(f)
     @token_required
-    def decorated_function(user_id, *args, **kwargs):
-        user = UserModel.query.get(user_id)
+    #the token_required function returns a user
+    def decorated_function(user, *args, **kwargs):
         if not user or user.role != "candidate":
             return jsonify({"error": "Only candidates can perform this action"}), 403
         return f(user, *args, **kwargs)

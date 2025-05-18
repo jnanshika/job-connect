@@ -1,0 +1,135 @@
+# swagger: "2.0"
+# info:
+#   title: Job Connect API
+#   description: API for user login and registration.
+#   version: "1.0.0"
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    
+tags:
+  - name: users
+    description: Endpoints related to user
+
+paths:
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: User login
+      description: Authenticates a user using email and password.
+      parameters:
+        - in: body
+          name: credentials
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: Login successful
+        400:
+          description: Missing or invalid credentials
+        404:
+          description: User not found
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Register a new user
+      description: Creates a new user account with role-based access.
+      parameters:
+        - in: body
+          name: User data
+          required: true
+          schema:
+            type: object
+            required:
+              - name
+              - email
+              - password
+              - role
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              role:
+                type: string
+      responses:
+        201:
+          description: User registered successfully
+        400:
+          description: Validation error or invalid role
+
+
+  /users/:
+    get:
+      tags:
+        - users
+      summary: Get all users
+      description: Returns a list of all users in the system.
+      responses:
+        200:
+          description: A list of users
+        500:
+          description: Server error
+
+  /users/{user_id}/deactivate:
+    patch:
+      tags:
+        - users
+      summary: Deactivate a user
+      description: Deactivates a user account (self or admin).
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          type: integer
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token in the format `Bearer <token>`
+      responses:
+        200:
+          description: User deactivated
+        403:
+          description: Not authorized
+        500:
+          description: Server error
+      security:
+        - ApiKeyAuth: []
+
+
+    # delete:
+    #   tags:
+    #     - Users
+    #   summary: Delete a user
+    #   description: Deletes a user from the database (admin only).
+    #   parameters:
+    #     - in: path
+    #       name: user_id
+    #       required: true
+    #       type: integer
+    #   responses:
+    #     200:
+    #       description: User deleted
+    #     403:
+    #       description: Not authorized
+    #     500:
+    #       description: Server error
+    #   security:
+    #     - ApiKeyAuth: []

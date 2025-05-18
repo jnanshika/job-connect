@@ -1,0 +1,33 @@
+definitions:
+  User:
+    type: object
+    required:
+      - name
+      - email
+      - password
+      - role
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+      role:
+        type: string
+        enum: [admin, user]
+
+  Job:
+    type: object
+    required:
+      - title
+      - company
+      - location
+    properties:
+      title:
+        type: string
+      company:
+        type: string
+      location:
+        type: string
