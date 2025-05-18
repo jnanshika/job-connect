@@ -1,0 +1,124 @@
+# from users.yml import securityDefinitions
+tags:
+  - name : jobs
+    description : Enpoints related to jobs
+
+paths:
+  /jobs/create:
+    post:
+      tags:
+      - jobs
+      summary: Create jobs
+      description : Recruiter can create jobs
+      parameters:
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        description: Bearer token in the format `Bearer <token>`
+      - in : body
+        name: job body
+        required : true
+        schema:
+          type: object
+          required:
+            - title
+            - description
+            - location
+            - status
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            location:
+              type: string
+              example : Pune
+            status:
+              type: string 
+              example : ['Active' , 'Inactive', 'Draft', 'Closed']
+      responses:
+        201:
+          description: Job was created successfully
+        400:
+          description: Missing or invalid fields
+        403:
+          description: Unauthorized access
+  
+  /jobs/:
+    get:
+      tags:
+      - jobs
+      summary: Retrieve all jobs
+      description : Anyone can retrive jobs
+      responses:
+          200:
+            description: A list of users
+          500:
+            description: Server errors
+
+  /jobs/update/{job_id}:
+    patch:
+      tags:
+      - jobs
+      summary : Update a job
+      description :  Update one or more of the following fields- title, description, location, or status. At least one must be provided.
+      parameters :
+      - in: path
+        name: job_id
+        required: true
+        type: integer
+        description: ID of the job to update
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        description: Bearer token in the format `Bearer <token>`
+      - in : body
+        name : job body
+        required : true
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            location:
+              type: string
+              example : Pune
+            status:
+              type: string 
+              example : ['Active' , 'Inactive', 'Draft', 'Closed']
+      responses:
+        200:
+          description: Job was successfully updated
+        400:
+          description: Job not found or not posted by user
+        403:
+          description: Unauthorized access
+
+  /jobs/{job_id}/deactivate:
+    patch:
+      tags:
+      - jobs
+      summary : Delete a job
+      description :  Deactivate (soft delete) a job
+      parameters :
+      - in: path
+        name: job_id
+        required: true
+        type: integer
+        description: ID of the job to delete
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        description: Bearer token in the format `Bearer <token>`
+      responses:
+        200:
+          description: Job was successfully deleted
+        400:
+          description: Job not found or not posted by user
+        403:
+          description: Unauthorized access

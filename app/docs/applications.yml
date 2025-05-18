@@ -1,0 +1,65 @@
+tags:
+  - name : applications
+    description : Enpoints related to applications
+
+paths:
+  /applications/create/{job_id}:
+    post:
+      tags:
+      - applications
+      summary : Create an application
+      description :  Candidates can apply to job by creating applications
+      parameters :
+      - in: path
+        name: job_id
+        required: true
+        type: integer
+        description: ID of the job you want to apply
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        description: Bearer token in the format `Bearer <token>`
+      - in: body
+        name: fields
+        schema:
+          type: object
+          properties:
+            resume:
+              type: string
+              example: resume link
+
+      responses:
+        200:
+          description: Application submitted successfully
+        400:
+          description: Job not found or user not active or valid
+        403:
+          description: Unauthorized access
+        409:
+          description : You have already applied to this job
+
+  /applications/jobid/{job_id}:
+    get:
+      tags:
+      - applications
+      summary: Retrieve applications 
+      description : Recruiter can retrive application for the job they posted
+      parameters :
+      - in: path
+        name: job_id
+        required: true
+        type: integer
+        description: ID of the job you want to retrieve applications of
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        description: Bearer token in the format `Bearer <token>`
+      responses:
+          200:
+            description: A list of applications
+          500:
+            description: Server errors
+          404:
+            description : Job not found or Inactive
