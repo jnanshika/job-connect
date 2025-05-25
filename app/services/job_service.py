@@ -33,17 +33,17 @@ class JobService():
         return {"message": "Job was successfully updated!"}, 200
 
     
-    #todo -> restrict for admin
-    @staticmethod
-    def delete_jobs():
-        try:
-            db.session.query(JobModel).delete()
-            db.session.commit()
-            return {"message": "All jobs are deleted"}, 200
+    # #todo -> restrict for admin
+    # @staticmethod
+    # def delete_jobs():
+    #     try:
+    #         db.session.query(JobModel).delete()
+    #         db.session.commit()
+    #         return {"message": "All jobs are deleted"}, 200
         
-        except Exception as e:
-            db.session.rollback()
-            return {"error": "Error while deleting jobs"}, 400
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         return {"error": "Error while deleting jobs"}, 400
 
     @staticmethod
     def deactivate_job(job_record : JobModel):

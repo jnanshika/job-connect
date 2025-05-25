@@ -56,8 +56,8 @@ def deactivate_user(loggeduser, user_id):
         return {"error": f"{loggeduser.name} is not authorized to deactivate this user"}, 403
     return AuthService.deactivate_user(user_id)
 
-#Only for testing - should be update to admin only or automate to delete deactivate accounts >30 days
-@user_routes.route('/<int:user_id>/delete', methods= ['DELETE'])
-@admin_required
-def delete_user(user, user_id):
-    return AuthService.delete_user(user_id)
+# #Only for testing - should be update to admin only or automate to delete deactivate accounts >30 days
+# @user_routes.route('/<int:user_id>/delete', methods= ['DELETE'])
+# @admin_required
+# def delete_user(user, user_id):
+#     return AuthService.delete_user(user_id)

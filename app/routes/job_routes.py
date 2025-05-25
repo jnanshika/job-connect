@@ -75,11 +75,11 @@ def deactivate_job(logged_user,job_id):
     return JobService.deactivate_job(job_record)
 
 
-@job_routes.route('/<int:job_id>/delete', methods =['DELETE'])
-@admin_required
-def delete_job(user, job_id):
-    job_record = JobModel.query.filter_by(id= job_id).first()
-    if not job_record:
-        return {"error": f"No job found with ID {job_id}"}, 404
+# @job_routes.route('/<int:job_id>/delete', methods =['DELETE'])
+# @admin_required
+# def delete_job(user, job_id):
+    # job_record = JobModel.query.filter_by(id= job_id).first()
+    # if not job_record:
+    #     return {"error": f"No job found with ID {job_id}"}, 404
     
-    return JobService.delete_job(job_record)
+    # return JobService.delete_job(job_record)
