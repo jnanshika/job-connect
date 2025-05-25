@@ -60,9 +60,9 @@ class AuthService:
             db.session.rollback()
             return {"error": f"Error while marking user as inactive. {str(e)}"}, 400
         
-    def delete_user(user_id):
-        user = UserModel.query.filter_by(id = user_id).first()
-        db.session.delete(user)
-        db.session.commit()
+    # def delete_user(user_id):
+    #     user = UserModel.query.filter_by(id = user_id).first()
+    #     db.session.delete(user)
+    #     db.session.commit()
 
-        return {"message" : "User deleted succesfully"}, 200
+    #     return {"message" : "User deleted succesfully"}, 200
